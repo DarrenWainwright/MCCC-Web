@@ -1,0 +1,48 @@
+﻿.sensor-list {}
+
+.sensor-list > .list-inline-item {
+    height: 180px;
+    width: 180px;
+    margin:10px;
+}
+
+.sensor{
+ width:100%; height:100%;
+ text-align:center; 
+}
+
+    .sensor > div {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        border: solid 1px #bbb7b7;
+        box-shadow: inset 0 0 10px rgb(161, 167, 159);
+        -moz-box-shadow: inset 0 0 10px rgb(161, 167, 159);
+        -webkit-box-shadow: inset 0 0 10px rgb(161, 167, 159);
+        -o-box-shadow: inset 0 0 10px rgb(161, 167, 159);
+        color: rgba(144, 142, 142,1);
+    }
+    .sensor .active {
+        border: solid 1px rgba(0, 128, 0, 0.60);
+        background-color: #e6ffdc;
+        box-shadow: inset 0 0 10px rgb(51, 218, 0);
+        -moz-box-shadow: inset 0 0 10px rgb(51, 218, 0);
+        -webkit-box-shadow: inset 0 0 10px rgb(51, 218, 0);
+        -o-box-shadow: inset 0 0 10px rgb(51, 218, 0);
+        color:#000;
+        /*color: rgba(108, 132, 108, 0.80);*/
+    }
+
+
+
+.sensor .icon {
+    height:110px;
+}
+.sensor .detail li{
+    border:solid 0px green;
+    line-height:4px;
+}
+.sensor .detail li .detail-icon{
+    font-size:2em;
+}
+/*.sensor .icon {font-size:7.5em;}*/
