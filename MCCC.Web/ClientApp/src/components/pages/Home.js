@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Sensor from '../widgets/Sensor';
 
 export class Home extends Component {
     static displayName = Home.name;
@@ -14,7 +15,10 @@ export class Home extends Component {
       <div>
         <h1>Dashboard</h1>
         <p>Welcome to your new single-page application, built with:</p>
-        
+            <ul>
+                <li><Sensor name={'sensor 1'} /></li>
+                <li><Sensor name={'sensor 2'} /></li>
+            </ul>
       </div>
     );
   }
