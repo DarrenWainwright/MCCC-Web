@@ -6,6 +6,9 @@ import './Sensor.css';
 
 export default class Sensor extends Component {
 
+    // buffer in seconds, to account for any latency
+    buffer = 5;
+
     constructor(props) {
         super(props);
         console.log(props);
@@ -22,16 +25,20 @@ export default class Sensor extends Component {
         }
     }
 
-    sensorIsActive() {
 
-        return 'active';
+    isSensorActive() {
+        var lc = new Date(this.sensorData.lastConnected);
+        lc.setSeconds(lc.getSeconds() + this.sensorData.heartbeatInterval);  
+        var c = new Date();
+        c.setSeconds(c.getSeconds() + this.buffer);
+        return ((c - lc) / 100 < 0);
     }
-       
-   
-    render() {       
+
+
+    render() {
         return (
             <div className={'sensor'}>
-                <div className={this.sensorIsActive()} >
+                <div className={(this.isSensorActive() ? 'active' : '')} >
                     <div className={'icon'}>{this.centerIcon()}</div>
                     <ul className={'detail list-inline'}>
                         <li className={'list-inline-item'}><WiCelsius className={'detail-icon'} /><br />23</li>
@@ -40,7 +47,6 @@ export default class Sensor extends Component {
                     </ul>
                 </div>
                 <h6>{this.sensorData.name}</h6>
-                <span>{this.sensorData.lastConnected}</span>
             </div>
         );
     }
