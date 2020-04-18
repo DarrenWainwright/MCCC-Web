@@ -15,7 +15,8 @@
     "react-scripts": "^3.0.1",
     "reactstrap": "^6.3.0",
     "rimraf": "^2.6.2",
-    "react-icons": "^3.9.0"
+    "react-icons": "^3.9.0",
+    "@aspnet/signalr": "^3.0.0-preview6.19307.2"
   },
   "devDependencies": {
     "ajv": "^6.9.1",

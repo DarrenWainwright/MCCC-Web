@@ -6,17 +6,16 @@ import './Sensor.css';
 
 export default class Sensor extends Component {
 
-    // buffer in seconds, to account for any latency
-    buffer = 5;
+   
 
     constructor(props) {
         super(props);
         console.log(props);
-        this.sensorData = props.sensorData;
+        this.sensor = props.data;
     }
 
     centerIcon() {
-        switch (this.sensorData.type) {
+        switch (this.sensor.type) {
             case 'DHT22':
                 return <WiThermometer fontSize={'7.5em'} />;
                 break;
@@ -25,14 +24,17 @@ export default class Sensor extends Component {
         }
     }
 
+    // buffer in seconds, to account for any latency
+    buffer = 5;
 
     isSensorActive() {
-        var lc = new Date(this.sensorData.lastConnected);
-        lc.setSeconds(lc.getSeconds() + this.sensorData.heartbeatInterval);  
+        var lc = new Date(this.sensor.lastConnected);
+        lc.setSeconds(lc.getSeconds() + this.sensor.heartbeatInterval);  
         var c = new Date();
         c.setSeconds(c.getSeconds() + this.buffer);
         return ((c - lc) / 100 < 0);
     }
+
 
 
     render() {
@@ -46,7 +48,7 @@ export default class Sensor extends Component {
                         <li className={'list-inline-item'}><WiHumidity className={'detail-icon'} /><br />23</li>
                     </ul>
                 </div>
-                <h6>{this.sensorData.name}</h6>
+                <h6>{this.sensor.name}</h6>
             </div>
         );
     }

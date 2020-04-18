@@ -12,11 +12,20 @@ export class Home extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { sensorList: [], loading: true };
+        //this.state = { sensorList: [], loading: true };
+
+        this.state = {
+            sensorList: [
+                {
+                    id: '123456-1234-1234-123456', name: 'Coop indoor', type: 'DHT22', heartbeatInterval: 10, lastConnected: (new Date())
+                },
+                { id: '123456-1234-1234-654321', name: 'Coop outdoor', type: 'DHT22', heartbeatInterval: 10, lastConnected: '2020-02-13 11:12:22' }
+            ], loading: true
+        };
     }
 
     componentDidMount() {
-        this.populateSensors();
+       // this.populateSensors();
     }
 
 
@@ -25,7 +34,7 @@ export class Home extends Component {
             <div>
                 <h3>Dashboard</h3>
                 <ul className={'list-inline', 'sensor-list'}>
-                    {this.state.sensorList.map(sensor => <li key={sensor.id} className={'list-inline-item'}><Sensor sensorData={sensor} /></li>)}
+                    {this.state.sensorList.map(sensor => <li key={sensor.id} className={'list-inline-item'}><Sensor data={sensor} /></li>)}
                 </ul>
             </div>
         );
@@ -35,6 +44,6 @@ export class Home extends Component {
         console.log('fetching sensors');
         const response = await fetch('http://localhost:7071/api/GetSensors');
         const data = await response.json();
-        this.setState({ sensorList: data, loading: false });
+        this.setState({ sensorList: this.data, loading: false });
     }
 }
