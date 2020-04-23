@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import InfoModal from '../modals/InfoModal'
+import InfoModal from './InfoModal'
 import './NavMenu.css';
 
 export class NavMenu extends Component {
-    static displayName = NavMenu.name;
 
     constructor(props) {
         super(props);
-        console.log(props)
         this.toggleNavbar = this.toggleNavbar.bind(this);
         this.state = {
-            collapsed: true,
-            showInfo: false
+            collapsed: true
         };
-
-        console.log(this.state);
     }
 
     toggleNavbar() {
@@ -25,15 +20,9 @@ export class NavMenu extends Component {
         });
     }
 
-    showInfoModal = () => { this.setState({ showInfo: true }); console.log(this.state); };
-    hideInfoModal = () => { this.setState({ showInfo: false }); console.log(this.state); };
-
     render() {
         return (
             <header>
-
-
-
                 <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
                     <Container>
                         <NavbarBrand tag={Link} to="/">Mother Cluckers</NavbarBrand>

@@ -16,7 +16,12 @@
     "reactstrap": "^6.3.0",
     "rimraf": "^2.6.2",
     "react-icons": "^3.9.0",
-    "@aspnet/signalr": "^3.0.0-preview6.19307.2"
+    "@aspnet/signalr-client": "^1.0.0-alpha2-update1",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5",
+    "prop-types": "^15.7.2",
+    "redux-thunk": "2.3.0",
+    "redux-logger": "4.0.0"
   },
   "devDependencies": {
     "ajv": "^6.9.1",

@@ -1,16 +1,11 @@
-﻿import React, { Component, useState } from 'react';
+﻿import React, { Component } from 'react';
 import { WiHumidity, WiCelsius, WiFahrenheit, WiThermometer } from 'react-icons/wi';
-import { FaTemperatureHigh } from 'react-icons/fa';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import './Sensor.css';
+import './SensorWidget.css';
 
-export default class Sensor extends Component {
-
-   
+export default class SensorWidget extends Component {   
 
     constructor(props) {
         super(props);
-        console.log(props);
         this.sensor = props.data;
     }
 
@@ -18,7 +13,6 @@ export default class Sensor extends Component {
         switch (this.sensor.type) {
             case 'DHT22':
                 return <WiThermometer fontSize={'7.5em'} />;
-                break;
             default:
                 return <span>x</span>;
         }
@@ -35,8 +29,6 @@ export default class Sensor extends Component {
         return ((c - lc) / 100 < 0);
     }
 
-
-
     render() {
         return (
             <div className={'sensor'}>
@@ -52,5 +44,4 @@ export default class Sensor extends Component {
             </div>
         );
     }
-
 }

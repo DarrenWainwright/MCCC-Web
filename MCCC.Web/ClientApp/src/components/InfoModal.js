@@ -1,5 +1,5 @@
 ﻿import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 
 const InfoModal = (props) => {
     const {
@@ -8,7 +8,6 @@ const InfoModal = (props) => {
     } = props;
 
     const [modal, setModal] = useState(false);
-
     const toggle = () => setModal(!modal);
 
     return (
