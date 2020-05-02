@@ -6,7 +6,7 @@
             </v-col>
         </v-row>
         <v-row dense v-if="!loading">
-            <v-col cols="12" md="4" sm="6" v-for="(sensor,i) in sensors" :key="i">
+            <v-col cols="12" lg="3" md="4" sm="6" v-for="(sensor,i) in sensors" :key="i">
                 <SensorCard :sensorData="sensor" />
             </v-col>    
         </v-row>
@@ -38,16 +38,27 @@ import SensorCard from './SensorCard'
 // ]
 
 
+
+
 export default {
     name:"Sensors",
     data:()=>({
         sensors:[],
         loading:true
     }),
+    created(){
+        this.$sensorHub.$on('onSensorChanged', this.sensorChanged);
+
+    },
     mounted(){
         axios.get(process.env.VUE_APP_SENSOR_API_BASE + '/GetSensors')
              .then(response => {this.sensors = response.data; this.loading = !this.loading; console.log(this.sensors)})
              .then(() => { this.sensors.push({id:"123456-123345-123-123-987", name:"Coop Outdoors", type:"DHT22", heartbeatInterval:10, lastHeartbeat: new Date() })} ) // console.log(response))
+    },
+    methods: {
+        sensorChanged(sensor){
+            console.log(sensor);
+        }
 
     },
     components:{
