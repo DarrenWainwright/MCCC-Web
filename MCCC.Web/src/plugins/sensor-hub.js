@@ -27,7 +27,7 @@ export default {
         
         connection = new HubConnectionBuilder()
                     .withUrl(
-                        process.env.VUE_APP_SIGNALR_API_BASE,
+                        `${process.env.VUE_APP_SIGNALR_API_BASE}/api`,
                         options
                     )
                     .configureLogging(LogLevel.Information)
@@ -35,7 +35,9 @@ export default {
       
         // Forward hub events through the event, so we can listen for them in the Vue components
         connection.on('onSensorChanged', (sensor) => { sensorHub.$emit('onSensorChanged', sensor) })
-     
+        connection.on('onTemperatureChanged', (temperature) =>{ sensorHub.$emit('onTemperatureChanged', temperature)})
+        connection.on('onHumidityChanged', (humidity) =>{ sensorHub.$emit('onHumidityChanged', humidity)})
+        
         // You need to call connection.start() to establish the connection but the client wont handle reconnecting for you!
         // Docs recommend listening onclose and handling it there.
         // This is the simplest of the strategies
@@ -66,7 +68,7 @@ export default {
             return connectionInfo
 
         console.log('xx')
-        await axios.post(`${process.env.VUE_APP_SIGNALR_API_BASE}/negotiate`, null, {})
+        await axios.post(`${process.env.VUE_APP_SIGNALR_API_BASE}/api/negotiate`, null, {})
           .then(function(resp) { connectionInfo = resp.data; return connectionInfo })
           .catch(function() { return {} })
 
@@ -81,16 +83,6 @@ export default {
       return startedPromise
         .then(() => connection.stop())
         .then(() => { startedPromise = null })
-    }
-
-    // Provide methods for components to send messages back to server
-    // Make sure no invocation happens until the connection is established
-    // se.questionOpened = (questionId) => {
-    //   if (!startedPromise) return
-
-    //   return startedPromise
-    //     .then(() => connection.invoke('JoinQuestionGroup', questionId))
-    //     .catch(console.error)
-    // }    
+    } 
   }
 }
