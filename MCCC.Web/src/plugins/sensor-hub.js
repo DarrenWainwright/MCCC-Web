@@ -17,10 +17,6 @@ export default {
     Vue.prototype.startSignalR = () =>{
        
          getConnectionInfo().then(function(info){
-
-           console.log('here')
-           console.log(info) 
-       
         var options = {
             accesssTokenFactory: () => info.accessToken
         }
@@ -35,8 +31,7 @@ export default {
       
         // Forward hub events through the event, so we can listen for them in the Vue components
         connection.on('onSensorChanged', (sensor) => { sensorHub.$emit('onSensorChanged', sensor) })
-        connection.on('onTemperatureChanged', (temperature) =>{ sensorHub.$emit('onTemperatureChanged', temperature)})
-        connection.on('onHumidityChanged', (humidity) =>{ sensorHub.$emit('onHumidityChanged', humidity)})
+        connection.on('onSensorDataChanged', (sensorData) =>{ sensorHub.$emit('onSensorDataChanged', sensorData)})
         
         // You need to call connection.start() to establish the connection but the client wont handle reconnecting for you!
         // Docs recommend listening onclose and handling it there.
@@ -67,7 +62,6 @@ export default {
         if (connectionInfo)
             return connectionInfo
 
-        console.log('xx')
         await axios.post(`${process.env.VUE_APP_SIGNALR_API_BASE}/api/negotiate`, null, {})
           .then(function(resp) { connectionInfo = resp.data; return connectionInfo })
           .catch(function() { return {} })

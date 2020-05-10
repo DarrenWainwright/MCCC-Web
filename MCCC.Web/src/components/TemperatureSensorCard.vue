@@ -12,10 +12,17 @@
       <v-list-item-content>
         <div class="overline mb-2 font-weight-bold">{{sensorData.name}}</div>
         <v-list-item-subtitle class="mb-1">{{sensorData.type}}</v-list-item-subtitle>
-        <v-list-item-subtitle>23&deg;C/79&deg;F<br />45% Humidity</v-list-item-subtitle>
+        <!-- temperature -->
+          <v-skeleton-loader v-if="!celcius" :loading="true" transition="fade-transition" type="text" />
+          <v-list-item-subtitle v-if="celcius">{{celcius}}&deg;C/{{fahrenheit}}&deg;F</v-list-item-subtitle>
+
+        <!-- Humidity -->
+          <v-skeleton-loader v-if="!humidity" :loading="true" transition="fade-transition" type="text" />
+          <v-list-item-subtitle v-if="humidity">{{humidity}}% Humidity</v-list-item-subtitle>
+
       </v-list-item-content>
 
-      <v-list-item-avatar        
+      <v-list-item-avatar       
         size="80"
         color="grey"        
       >
@@ -50,17 +57,42 @@ export default {
         sensorData:Object
     },
     data:()=>({
-      isAlive:false
+      isAlive:false,
+      humidity:null,
+      celcius:null,
+      fahrenheit:null
     }),
+    created(){
+      this.$sensorHub.$on('onSensorDataChanged', this.sensorDataChanged);
+    },
     mounted (){   
       this.isAlive = isSensorActive(this.sensorData);
+    },
+    beforeDestroy(){
+      this.$sensorHub.$off('onSensorDataChanged');
     },
     methods: {
       heartbeatReceived: function(){ 
         this.isAlive = true; 
         clearTimeout(hbTimeout);
         hbTimeout = setTimeout(() => {this.isAlive = false; console.log(this.sensorData.name + ' timeout')}, (this.sensorData.heartbeatInterval*1000)+hbBuffer);
-      }
+      },
+      sensorDataChanged: function(data){
+        if (this.sensorData.name!==data.name)
+          return;
+
+        if (data.celcius)
+          this.celcius = data.celcius;
+        if (data.fahrenheit)
+          this.fahrenheit = data.fahrenheit;
+        if (data.humidity)
+          this.humidity = data.humidity;        
+      },
+      humidityChanged: function(humiModel){
+        if (this.sensorData.name!==humiModel.sensorName)
+          return;
+        this.humidity = humiModel.humidity;
+      },
     },
     watch:{
       sensorData:{
