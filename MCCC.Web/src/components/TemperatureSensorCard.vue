@@ -41,7 +41,7 @@
 <script>
 
 const hbBuffer = 3000; // 3 seconds
-var hbTimeout;
+// let hbTimeout=null;
 
 function isSensorActive(sensor) {
       var lc = new Date(sensor.lastHeartbeat);
@@ -60,7 +60,8 @@ export default {
       isAlive:false,
       humidity:null,
       celcius:null,
-      fahrenheit:null
+      fahrenheit:null,
+      hbTimeout:null
     }),
     created(){
       this.$sensorHub.$on('onSensorDataChanged', this.sensorDataChanged);
@@ -74,19 +75,21 @@ export default {
     methods: {
       heartbeatReceived: function(){ 
         this.isAlive = true; 
-        clearTimeout(hbTimeout);
-        hbTimeout = setTimeout(() => {this.isAlive = false; console.log(this.sensorData.name + ' timeout')}, (this.sensorData.heartbeatInterval*1000)+hbBuffer);
+        var self = this;
+        clearTimeout(this.hbTimeout);
+        this.hbTimeout = setTimeout(() => {self.isAlive = false; console.log(self.sensorData.name + ' timeout')}, (self.sensorData.heartbeatInterval*1000)+hbBuffer);
       },
       sensorDataChanged: function(data){
+        console.log('sensorDataChanged event received')
         if (this.sensorData.name!==data.name)
           return;
 
         if (data.celcius)
-          this.celcius = data.celcius;
+          this.celcius = data.celcius.toFixed(1);
         if (data.fahrenheit)
-          this.fahrenheit = data.fahrenheit;
+          this.fahrenheit = data.fahrenheit.toFixed(1);
         if (data.humidity)
-          this.humidity = data.humidity;        
+          this.humidity = data.humidity.toFixed(1);        
       },
       humidityChanged: function(humiModel){
         if (this.sensorData.name!==humiModel.sensorName)
